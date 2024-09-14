@@ -1,0 +1,19 @@
+[program 
+[func-declaration 
+[int]
+[(null)]
+[params
+]
+[compound-stmt 
+[var-declaration [int][(null)]]
+[call 
+[(null)]
+[args [var [(null)]]]
+]
+[selection-stmt 
+[<= [var [(null)]][0]]
+[= [var [(null)]][1]]]
+[print-stmt [var [(null)]]]
+]
+]
+]

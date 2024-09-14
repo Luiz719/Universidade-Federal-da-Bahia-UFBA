@@ -1,0 +1,2124 @@
+Terminais sem uso na gramática
+
+    ERROR
+
+
+Estado 62 conflitos: 1 de deslocamento/redução
+Estado 160 conflitos: 1 de redução/redução
+Estado 167 conflitos: 1 de redução/redução
+Estado 169 conflitos: 1 de redução/redução
+Estado 171 conflitos: 1 de redução/redução
+
+
+Gramática
+
+    0 $accept: program $end
+
+    1 program: declaration-list
+
+    2 declaration-list: declaration-list declaration
+    3                 | declaration
+
+    4 declaration: var-declaration
+    5            | function-declaration
+
+    6 simple-type: BOOLEAN
+    7            | INTEGER
+
+    8 array-type: ARRAY LBRACKET NUM RBRACKET simple-type
+
+    9 literal-list: literal
+   10             | literal-list COMMA literal
+
+   11 literal: TRUE
+   12        | FALSE
+   13        | NUM
+
+   14 var-declaration: ID COLON simple-type SEMICOLON
+   15                | ID COLON simple-type ASSIGN literal SEMICOLON
+   16                | ID COLON array-type SEMICOLON
+   17                | ID COLON array-type ASSIGN LBRACE literal-list RBRACE SEMICOLON
+
+   18 params: LPAREN RPAREN
+   19       | LPAREN param-list RPAREN
+
+   20 param-list: param
+   21           | param-list COMMA param
+
+   22 param: ID COLON simple-type
+   23      | ID COLON ARRAY LBRACKET RBRACKET simple-type
+
+   24 func-return: simple-type
+   25            | VOID
+
+   26 function-declaration: ID COLON FUNCTION func-return params ASSIGN function-block
+
+   27 function-block: LBRACE var-declaration-list statement-list RBRACE
+   28               | LBRACE var-declaration-list RBRACE
+   29               | LBRACE statement-list RBRACE
+   30               | LBRACE RBRACE
+
+   31 block: LBRACE var-declaration-list statement-list RBRACE
+   32      | LBRACE var-declaration-list RBRACE
+   33      | LBRACE statement-list RBRACE
+   34      | LBRACE RBRACE
+
+   35 statement: IF LPAREN expression RPAREN statement-list SEMICOLON
+   36          | IF LPAREN expression RPAREN statement-list ELSE statement-list SEMICOLON
+   37          | WHILE LPAREN expression RPAREN function-block SEMICOLON
+   38          | WHILE LPAREN expression RPAREN statement SEMICOLON
+   39          | WHILE LPAREN expression RPAREN var-declaration SEMICOLON
+   40          | print-statement SEMICOLON
+   41          | expression SEMICOLON
+   42          | return-statement SEMICOLON
+   43          | block
+
+   44 print-statement: PRINT NUM
+   45                | PRINT var-call
+
+   46 return-statement: RETURN expression
+   47                 | RETURN
+
+   48 function-call: ID args
+
+   49 args: LPAREN RPAREN
+   50     | LPAREN args-list RPAREN
+
+   51 args-list: ID
+   52          | args-list COMMA ID
+
+   53 var-declaration-list: var-declaration
+   54                     | var-declaration var-declaration-list
+
+   55 statement-list: statement
+   56               | statement statement-list
+
+   57 expression: var-call ASSIGN expression
+   58           | simple_expression
+
+   59 var-call: ID
+   60         | ID LBRACKET NUM RBRACKET
+
+   61 simple_expression: additive_expression
+   62                  | additive_expression LESS additive_expression
+   63                  | additive_expression GREATER additive_expression
+   64                  | additive_expression GREATER_OR_EQUAL additive_expression
+   65                  | additive_expression LESS_OR_EQUAL additive_expression
+   66                  | additive_expression EQUALS additive_expression
+   67                  | additive_expression NEQUAL additive_expression
+   68                  | additive_expression AND additive_expression
+   69                  | additive_expression OR additive_expression
+
+   70 additive_expression: term
+   71                    | additive_expression PLUS term
+   72                    | additive_expression MINUS term
+
+   73 term: factor
+   74     | term MULT factor
+   75     | term DIV factor
+   76     | term MOD factor
+
+   77 factor: NUM
+   78       | NOT factor
+   79       | LPAREN expression RPAREN
+   80       | var-call
+   81       | function-call
+
+
+Terminais, com as regras onde eles aparecem
+
+    $end (0) 0
+    error (256)
+    ARRAY (258) 8 23
+    BOOLEAN (259) 6
+    ELSE (260) 36
+    FALSE (261) 12
+    FUNCTION (262) 26
+    IF (263) 35 36
+    INTEGER (264) 7
+    PRINT (265) 44 45
+    TRUE (266) 11
+    VOID (267) 25
+    WHILE (268) 37 38 39
+    ID (269) 14 15 16 17 22 23 26 48 51 52 59 60
+    RETURN (270) 46 47
+    PLUS (271) 71
+    MINUS (272) 72
+    MULT (273) 74
+    DIV (274) 75
+    MOD (275) 76
+    NOT (276) 78
+    LESS (277) 62
+    GREATER (278) 63
+    ASSIGN (279) 15 17 26 57
+    COLON (280) 14 15 16 17 22 23 26
+    SEMICOLON (281) 14 15 16 17 35 36 37 38 39 40 41 42
+    COMMA (282) 10 21 52
+    LPAREN (283) 18 19 35 36 37 38 39 49 50 79
+    RPAREN (284) 18 19 35 36 37 38 39 49 50 79
+    LBRACKET (285) 8 23 60
+    RBRACKET (286) 8 23 60
+    LBRACE (287) 17 27 28 29 30 31 32 33 34
+    RBRACE (288) 17 27 28 29 30 31 32 33 34
+    LESS_OR_EQUAL (289) 65
+    GREATER_OR_EQUAL (290) 64
+    EQUALS (291) 66
+    NEQUAL (292) 67
+    AND (293) 68
+    OR (294) 69
+    NUM (295) 8 13 44 60 77
+    ERROR (296)
+
+
+Não terminais com as regras onde eles aparecem
+
+    $accept (42)
+        à esquerda: 0
+    program (43)
+        à esquerda: 1
+        à direita: 0
+    declaration-list (44)
+        à esquerda: 2 3
+        à direita: 1 2
+    declaration (45)
+        à esquerda: 4 5
+        à direita: 2 3
+    simple-type (46)
+        à esquerda: 6 7
+        à direita: 8 14 15 22 23 24
+    array-type (47)
+        à esquerda: 8
+        à direita: 16 17
+    literal-list (48)
+        à esquerda: 9 10
+        à direita: 10 17
+    literal (49)
+        à esquerda: 11 12 13
+        à direita: 9 10 15
+    var-declaration (50)
+        à esquerda: 14 15 16 17
+        à direita: 4 39 53 54
+    params (51)
+        à esquerda: 18 19
+        à direita: 26
+    param-list (52)
+        à esquerda: 20 21
+        à direita: 19 21
+    param (53)
+        à esquerda: 22 23
+        à direita: 20 21
+    func-return (54)
+        à esquerda: 24 25
+        à direita: 26
+    function-declaration (55)
+        à esquerda: 26
+        à direita: 5
+    function-block (56)
+        à esquerda: 27 28 29 30
+        à direita: 26 37
+    block (57)
+        à esquerda: 31 32 33 34
+        à direita: 43
+    statement (58)
+        à esquerda: 35 36 37 38 39 40 41 42 43
+        à direita: 38 55 56
+    print-statement (59)
+        à esquerda: 44 45
+        à direita: 40
+    return-statement (60)
+        à esquerda: 46 47
+        à direita: 42
+    function-call (61)
+        à esquerda: 48
+        à direita: 81
+    args (62)
+        à esquerda: 49 50
+        à direita: 48
+    args-list (63)
+        à esquerda: 51 52
+        à direita: 50 52
+    var-declaration-list (64)
+        à esquerda: 53 54
+        à direita: 27 28 31 32 54
+    statement-list (65)
+        à esquerda: 55 56
+        à direita: 27 29 31 33 35 36 56
+    expression (66)
+        à esquerda: 57 58
+        à direita: 35 36 37 38 39 41 46 57 79
+    var-call (67)
+        à esquerda: 59 60
+        à direita: 45 57 80
+    simple_expression (68)
+        à esquerda: 61 62 63 64 65 66 67 68 69
+        à direita: 58
+    additive_expression (69)
+        à esquerda: 70 71 72
+        à direita: 61 62 63 64 65 66 67 68 69 71 72
+    term (70)
+        à esquerda: 73 74 75 76
+        à direita: 70 71 72 74 75 76
+    factor (71)
+        à esquerda: 77 78 79 80 81
+        à direita: 73 74 75 76 78
+
+
+Estado 0
+
+    0 $accept: • program $end
+
+    ID  deslocar, e ir ao estado 1
+
+    program               ir ao estado 2
+    declaration-list      ir ao estado 3
+    declaration           ir ao estado 4
+    var-declaration       ir ao estado 5
+    function-declaration  ir ao estado 6
+
+
+Estado 1
+
+   14 var-declaration: ID • COLON simple-type SEMICOLON
+   15                | ID • COLON simple-type ASSIGN literal SEMICOLON
+   16                | ID • COLON array-type SEMICOLON
+   17                | ID • COLON array-type ASSIGN LBRACE literal-list RBRACE SEMICOLON
+   26 function-declaration: ID • COLON FUNCTION func-return params ASSIGN function-block
+
+    COLON  deslocar, e ir ao estado 7
+
+
+Estado 2
+
+    0 $accept: program • $end
+
+    $end  deslocar, e ir ao estado 8
+
+
+Estado 3
+
+    1 program: declaration-list •
+    2 declaration-list: declaration-list • declaration
+
+    ID  deslocar, e ir ao estado 1
+
+    $padrão  reduzir usando a regra 1 (program)
+
+    declaration           ir ao estado 9
+    var-declaration       ir ao estado 5
+    function-declaration  ir ao estado 6
+
+
+Estado 4
+
+    3 declaration-list: declaration •
+
+    $padrão  reduzir usando a regra 3 (declaration-list)
+
+
+Estado 5
+
+    4 declaration: var-declaration •
+
+    $padrão  reduzir usando a regra 4 (declaration)
+
+
+Estado 6
+
+    5 declaration: function-declaration •
+
+    $padrão  reduzir usando a regra 5 (declaration)
+
+
+Estado 7
+
+   14 var-declaration: ID COLON • simple-type SEMICOLON
+   15                | ID COLON • simple-type ASSIGN literal SEMICOLON
+   16                | ID COLON • array-type SEMICOLON
+   17                | ID COLON • array-type ASSIGN LBRACE literal-list RBRACE SEMICOLON
+   26 function-declaration: ID COLON • FUNCTION func-return params ASSIGN function-block
+
+    ARRAY     deslocar, e ir ao estado 10
+    BOOLEAN   deslocar, e ir ao estado 11
+    FUNCTION  deslocar, e ir ao estado 12
+    INTEGER   deslocar, e ir ao estado 13
+
+    simple-type  ir ao estado 14
+    array-type   ir ao estado 15
+
+
+Estado 8
+
+    0 $accept: program $end •
+
+    $padrão  aceitar
+
+
+Estado 9
+
+    2 declaration-list: declaration-list declaration •
+
+    $padrão  reduzir usando a regra 2 (declaration-list)
+
+
+Estado 10
+
+    8 array-type: ARRAY • LBRACKET NUM RBRACKET simple-type
+
+    LBRACKET  deslocar, e ir ao estado 16
+
+
+Estado 11
+
+    6 simple-type: BOOLEAN •
+
+    $padrão  reduzir usando a regra 6 (simple-type)
+
+
+Estado 12
+
+   26 function-declaration: ID COLON FUNCTION • func-return params ASSIGN function-block
+
+    BOOLEAN  deslocar, e ir ao estado 11
+    INTEGER  deslocar, e ir ao estado 13
+    VOID     deslocar, e ir ao estado 17
+
+    simple-type  ir ao estado 18
+    func-return  ir ao estado 19
+
+
+Estado 13
+
+    7 simple-type: INTEGER •
+
+    $padrão  reduzir usando a regra 7 (simple-type)
+
+
+Estado 14
+
+   14 var-declaration: ID COLON simple-type • SEMICOLON
+   15                | ID COLON simple-type • ASSIGN literal SEMICOLON
+
+    ASSIGN     deslocar, e ir ao estado 20
+    SEMICOLON  deslocar, e ir ao estado 21
+
+
+Estado 15
+
+   16 var-declaration: ID COLON array-type • SEMICOLON
+   17                | ID COLON array-type • ASSIGN LBRACE literal-list RBRACE SEMICOLON
+
+    ASSIGN     deslocar, e ir ao estado 22
+    SEMICOLON  deslocar, e ir ao estado 23
+
+
+Estado 16
+
+    8 array-type: ARRAY LBRACKET • NUM RBRACKET simple-type
+
+    NUM  deslocar, e ir ao estado 24
+
+
+Estado 17
+
+   25 func-return: VOID •
+
+    $padrão  reduzir usando a regra 25 (func-return)
+
+
+Estado 18
+
+   24 func-return: simple-type •
+
+    $padrão  reduzir usando a regra 24 (func-return)
+
+
+Estado 19
+
+   26 function-declaration: ID COLON FUNCTION func-return • params ASSIGN function-block
+
+    LPAREN  deslocar, e ir ao estado 25
+
+    params  ir ao estado 26
+
+
+Estado 20
+
+   15 var-declaration: ID COLON simple-type ASSIGN • literal SEMICOLON
+
+    FALSE  deslocar, e ir ao estado 27
+    TRUE   deslocar, e ir ao estado 28
+    NUM    deslocar, e ir ao estado 29
+
+    literal  ir ao estado 30
+
+
+Estado 21
+
+   14 var-declaration: ID COLON simple-type SEMICOLON •
+
+    $padrão  reduzir usando a regra 14 (var-declaration)
+
+
+Estado 22
+
+   17 var-declaration: ID COLON array-type ASSIGN • LBRACE literal-list RBRACE SEMICOLON
+
+    LBRACE  deslocar, e ir ao estado 31
+
+
+Estado 23
+
+   16 var-declaration: ID COLON array-type SEMICOLON •
+
+    $padrão  reduzir usando a regra 16 (var-declaration)
+
+
+Estado 24
+
+    8 array-type: ARRAY LBRACKET NUM • RBRACKET simple-type
+
+    RBRACKET  deslocar, e ir ao estado 32
+
+
+Estado 25
+
+   18 params: LPAREN • RPAREN
+   19       | LPAREN • param-list RPAREN
+
+    ID      deslocar, e ir ao estado 33
+    RPAREN  deslocar, e ir ao estado 34
+
+    param-list  ir ao estado 35
+    param       ir ao estado 36
+
+
+Estado 26
+
+   26 function-declaration: ID COLON FUNCTION func-return params • ASSIGN function-block
+
+    ASSIGN  deslocar, e ir ao estado 37
+
+
+Estado 27
+
+   12 literal: FALSE •
+
+    $padrão  reduzir usando a regra 12 (literal)
+
+
+Estado 28
+
+   11 literal: TRUE •
+
+    $padrão  reduzir usando a regra 11 (literal)
+
+
+Estado 29
+
+   13 literal: NUM •
+
+    $padrão  reduzir usando a regra 13 (literal)
+
+
+Estado 30
+
+   15 var-declaration: ID COLON simple-type ASSIGN literal • SEMICOLON
+
+    SEMICOLON  deslocar, e ir ao estado 38
+
+
+Estado 31
+
+   17 var-declaration: ID COLON array-type ASSIGN LBRACE • literal-list RBRACE SEMICOLON
+
+    FALSE  deslocar, e ir ao estado 27
+    TRUE   deslocar, e ir ao estado 28
+    NUM    deslocar, e ir ao estado 29
+
+    literal-list  ir ao estado 39
+    literal       ir ao estado 40
+
+
+Estado 32
+
+    8 array-type: ARRAY LBRACKET NUM RBRACKET • simple-type
+
+    BOOLEAN  deslocar, e ir ao estado 11
+    INTEGER  deslocar, e ir ao estado 13
+
+    simple-type  ir ao estado 41
+
+
+Estado 33
+
+   22 param: ID • COLON simple-type
+   23      | ID • COLON ARRAY LBRACKET RBRACKET simple-type
+
+    COLON  deslocar, e ir ao estado 42
+
+
+Estado 34
+
+   18 params: LPAREN RPAREN •
+
+    $padrão  reduzir usando a regra 18 (params)
+
+
+Estado 35
+
+   19 params: LPAREN param-list • RPAREN
+   21 param-list: param-list • COMMA param
+
+    COMMA   deslocar, e ir ao estado 43
+    RPAREN  deslocar, e ir ao estado 44
+
+
+Estado 36
+
+   20 param-list: param •
+
+    $padrão  reduzir usando a regra 20 (param-list)
+
+
+Estado 37
+
+   26 function-declaration: ID COLON FUNCTION func-return params ASSIGN • function-block
+
+    LBRACE  deslocar, e ir ao estado 45
+
+    function-block  ir ao estado 46
+
+
+Estado 38
+
+   15 var-declaration: ID COLON simple-type ASSIGN literal SEMICOLON •
+
+    $padrão  reduzir usando a regra 15 (var-declaration)
+
+
+Estado 39
+
+   10 literal-list: literal-list • COMMA literal
+   17 var-declaration: ID COLON array-type ASSIGN LBRACE literal-list • RBRACE SEMICOLON
+
+    COMMA   deslocar, e ir ao estado 47
+    RBRACE  deslocar, e ir ao estado 48
+
+
+Estado 40
+
+    9 literal-list: literal •
+
+    $padrão  reduzir usando a regra 9 (literal-list)
+
+
+Estado 41
+
+    8 array-type: ARRAY LBRACKET NUM RBRACKET simple-type •
+
+    $padrão  reduzir usando a regra 8 (array-type)
+
+
+Estado 42
+
+   22 param: ID COLON • simple-type
+   23      | ID COLON • ARRAY LBRACKET RBRACKET simple-type
+
+    ARRAY    deslocar, e ir ao estado 49
+    BOOLEAN  deslocar, e ir ao estado 11
+    INTEGER  deslocar, e ir ao estado 13
+
+    simple-type  ir ao estado 50
+
+
+Estado 43
+
+   21 param-list: param-list COMMA • param
+
+    ID  deslocar, e ir ao estado 33
+
+    param  ir ao estado 51
+
+
+Estado 44
+
+   19 params: LPAREN param-list RPAREN •
+
+    $padrão  reduzir usando a regra 19 (params)
+
+
+Estado 45
+
+   27 function-block: LBRACE • var-declaration-list statement-list RBRACE
+   28               | LBRACE • var-declaration-list RBRACE
+   29               | LBRACE • statement-list RBRACE
+   30               | LBRACE • RBRACE
+
+    IF      deslocar, e ir ao estado 52
+    PRINT   deslocar, e ir ao estado 53
+    WHILE   deslocar, e ir ao estado 54
+    ID      deslocar, e ir ao estado 55
+    RETURN  deslocar, e ir ao estado 56
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    LBRACE  deslocar, e ir ao estado 59
+    RBRACE  deslocar, e ir ao estado 60
+    NUM     deslocar, e ir ao estado 61
+
+    var-declaration       ir ao estado 62
+    block                 ir ao estado 63
+    statement             ir ao estado 64
+    print-statement       ir ao estado 65
+    return-statement      ir ao estado 66
+    function-call         ir ao estado 67
+    var-declaration-list  ir ao estado 68
+    statement-list        ir ao estado 69
+    expression            ir ao estado 70
+    var-call              ir ao estado 71
+    simple_expression     ir ao estado 72
+    additive_expression   ir ao estado 73
+    term                  ir ao estado 74
+    factor                ir ao estado 75
+
+
+Estado 46
+
+   26 function-declaration: ID COLON FUNCTION func-return params ASSIGN function-block •
+
+    $padrão  reduzir usando a regra 26 (function-declaration)
+
+
+Estado 47
+
+   10 literal-list: literal-list COMMA • literal
+
+    FALSE  deslocar, e ir ao estado 27
+    TRUE   deslocar, e ir ao estado 28
+    NUM    deslocar, e ir ao estado 29
+
+    literal  ir ao estado 76
+
+
+Estado 48
+
+   17 var-declaration: ID COLON array-type ASSIGN LBRACE literal-list RBRACE • SEMICOLON
+
+    SEMICOLON  deslocar, e ir ao estado 77
+
+
+Estado 49
+
+   23 param: ID COLON ARRAY • LBRACKET RBRACKET simple-type
+
+    LBRACKET  deslocar, e ir ao estado 78
+
+
+Estado 50
+
+   22 param: ID COLON simple-type •
+
+    $padrão  reduzir usando a regra 22 (param)
+
+
+Estado 51
+
+   21 param-list: param-list COMMA param •
+
+    $padrão  reduzir usando a regra 21 (param-list)
+
+
+Estado 52
+
+   35 statement: IF • LPAREN expression RPAREN statement-list SEMICOLON
+   36          | IF • LPAREN expression RPAREN statement-list ELSE statement-list SEMICOLON
+
+    LPAREN  deslocar, e ir ao estado 79
+
+
+Estado 53
+
+   44 print-statement: PRINT • NUM
+   45                | PRINT • var-call
+
+    ID   deslocar, e ir ao estado 80
+    NUM  deslocar, e ir ao estado 81
+
+    var-call  ir ao estado 82
+
+
+Estado 54
+
+   37 statement: WHILE • LPAREN expression RPAREN function-block SEMICOLON
+   38          | WHILE • LPAREN expression RPAREN statement SEMICOLON
+   39          | WHILE • LPAREN expression RPAREN var-declaration SEMICOLON
+
+    LPAREN  deslocar, e ir ao estado 83
+
+
+Estado 55
+
+   14 var-declaration: ID • COLON simple-type SEMICOLON
+   15                | ID • COLON simple-type ASSIGN literal SEMICOLON
+   16                | ID • COLON array-type SEMICOLON
+   17                | ID • COLON array-type ASSIGN LBRACE literal-list RBRACE SEMICOLON
+   48 function-call: ID • args
+   59 var-call: ID •
+   60         | ID • LBRACKET NUM RBRACKET
+
+    COLON     deslocar, e ir ao estado 84
+    LPAREN    deslocar, e ir ao estado 85
+    LBRACKET  deslocar, e ir ao estado 86
+
+    $padrão  reduzir usando a regra 59 (var-call)
+
+    args  ir ao estado 87
+
+
+Estado 56
+
+   46 return-statement: RETURN • expression
+   47                 | RETURN •
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    $padrão  reduzir usando a regra 47 (return-statement)
+
+    function-call        ir ao estado 67
+    expression           ir ao estado 89
+    var-call             ir ao estado 71
+    simple_expression    ir ao estado 72
+    additive_expression  ir ao estado 73
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 57
+
+   78 factor: NOT • factor
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call  ir ao estado 67
+    var-call       ir ao estado 90
+    factor         ir ao estado 91
+
+
+Estado 58
+
+   79 factor: LPAREN • expression RPAREN
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call        ir ao estado 67
+    expression           ir ao estado 92
+    var-call             ir ao estado 71
+    simple_expression    ir ao estado 72
+    additive_expression  ir ao estado 73
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 59
+
+   31 block: LBRACE • var-declaration-list statement-list RBRACE
+   32      | LBRACE • var-declaration-list RBRACE
+   33      | LBRACE • statement-list RBRACE
+   34      | LBRACE • RBRACE
+
+    IF      deslocar, e ir ao estado 52
+    PRINT   deslocar, e ir ao estado 53
+    WHILE   deslocar, e ir ao estado 54
+    ID      deslocar, e ir ao estado 55
+    RETURN  deslocar, e ir ao estado 56
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    LBRACE  deslocar, e ir ao estado 59
+    RBRACE  deslocar, e ir ao estado 93
+    NUM     deslocar, e ir ao estado 61
+
+    var-declaration       ir ao estado 62
+    block                 ir ao estado 63
+    statement             ir ao estado 64
+    print-statement       ir ao estado 65
+    return-statement      ir ao estado 66
+    function-call         ir ao estado 67
+    var-declaration-list  ir ao estado 94
+    statement-list        ir ao estado 95
+    expression            ir ao estado 70
+    var-call              ir ao estado 71
+    simple_expression     ir ao estado 72
+    additive_expression   ir ao estado 73
+    term                  ir ao estado 74
+    factor                ir ao estado 75
+
+
+Estado 60
+
+   30 function-block: LBRACE RBRACE •
+
+    $padrão  reduzir usando a regra 30 (function-block)
+
+
+Estado 61
+
+   77 factor: NUM •
+
+    $padrão  reduzir usando a regra 77 (factor)
+
+
+Estado 62
+
+   53 var-declaration-list: var-declaration •
+   54                     | var-declaration • var-declaration-list
+
+    ID  deslocar, e ir ao estado 96
+
+    ID       [reduzir usando a regra 53 (var-declaration-list)]
+    $padrão  reduzir usando a regra 53 (var-declaration-list)
+
+    var-declaration       ir ao estado 62
+    var-declaration-list  ir ao estado 97
+
+
+Estado 63
+
+   43 statement: block •
+
+    $padrão  reduzir usando a regra 43 (statement)
+
+
+Estado 64
+
+   55 statement-list: statement •
+   56               | statement • statement-list
+
+    IF      deslocar, e ir ao estado 52
+    PRINT   deslocar, e ir ao estado 53
+    WHILE   deslocar, e ir ao estado 54
+    ID      deslocar, e ir ao estado 88
+    RETURN  deslocar, e ir ao estado 56
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    LBRACE  deslocar, e ir ao estado 59
+    NUM     deslocar, e ir ao estado 61
+
+    $padrão  reduzir usando a regra 55 (statement-list)
+
+    block                ir ao estado 63
+    statement            ir ao estado 64
+    print-statement      ir ao estado 65
+    return-statement     ir ao estado 66
+    function-call        ir ao estado 67
+    statement-list       ir ao estado 98
+    expression           ir ao estado 70
+    var-call             ir ao estado 71
+    simple_expression    ir ao estado 72
+    additive_expression  ir ao estado 73
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 65
+
+   40 statement: print-statement • SEMICOLON
+
+    SEMICOLON  deslocar, e ir ao estado 99
+
+
+Estado 66
+
+   42 statement: return-statement • SEMICOLON
+
+    SEMICOLON  deslocar, e ir ao estado 100
+
+
+Estado 67
+
+   81 factor: function-call •
+
+    $padrão  reduzir usando a regra 81 (factor)
+
+
+Estado 68
+
+   27 function-block: LBRACE var-declaration-list • statement-list RBRACE
+   28               | LBRACE var-declaration-list • RBRACE
+
+    IF      deslocar, e ir ao estado 52
+    PRINT   deslocar, e ir ao estado 53
+    WHILE   deslocar, e ir ao estado 54
+    ID      deslocar, e ir ao estado 88
+    RETURN  deslocar, e ir ao estado 56
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    LBRACE  deslocar, e ir ao estado 59
+    RBRACE  deslocar, e ir ao estado 101
+    NUM     deslocar, e ir ao estado 61
+
+    block                ir ao estado 63
+    statement            ir ao estado 64
+    print-statement      ir ao estado 65
+    return-statement     ir ao estado 66
+    function-call        ir ao estado 67
+    statement-list       ir ao estado 102
+    expression           ir ao estado 70
+    var-call             ir ao estado 71
+    simple_expression    ir ao estado 72
+    additive_expression  ir ao estado 73
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 69
+
+   29 function-block: LBRACE statement-list • RBRACE
+
+    RBRACE  deslocar, e ir ao estado 103
+
+
+Estado 70
+
+   41 statement: expression • SEMICOLON
+
+    SEMICOLON  deslocar, e ir ao estado 104
+
+
+Estado 71
+
+   57 expression: var-call • ASSIGN expression
+   80 factor: var-call •
+
+    ASSIGN  deslocar, e ir ao estado 105
+
+    $padrão  reduzir usando a regra 80 (factor)
+
+
+Estado 72
+
+   58 expression: simple_expression •
+
+    $padrão  reduzir usando a regra 58 (expression)
+
+
+Estado 73
+
+   61 simple_expression: additive_expression •
+   62                  | additive_expression • LESS additive_expression
+   63                  | additive_expression • GREATER additive_expression
+   64                  | additive_expression • GREATER_OR_EQUAL additive_expression
+   65                  | additive_expression • LESS_OR_EQUAL additive_expression
+   66                  | additive_expression • EQUALS additive_expression
+   67                  | additive_expression • NEQUAL additive_expression
+   68                  | additive_expression • AND additive_expression
+   69                  | additive_expression • OR additive_expression
+   71 additive_expression: additive_expression • PLUS term
+   72                    | additive_expression • MINUS term
+
+    PLUS              deslocar, e ir ao estado 106
+    MINUS             deslocar, e ir ao estado 107
+    LESS              deslocar, e ir ao estado 108
+    GREATER           deslocar, e ir ao estado 109
+    LESS_OR_EQUAL     deslocar, e ir ao estado 110
+    GREATER_OR_EQUAL  deslocar, e ir ao estado 111
+    EQUALS            deslocar, e ir ao estado 112
+    NEQUAL            deslocar, e ir ao estado 113
+    AND               deslocar, e ir ao estado 114
+    OR                deslocar, e ir ao estado 115
+
+    $padrão  reduzir usando a regra 61 (simple_expression)
+
+
+Estado 74
+
+   70 additive_expression: term •
+   74 term: term • MULT factor
+   75     | term • DIV factor
+   76     | term • MOD factor
+
+    MULT  deslocar, e ir ao estado 116
+    DIV   deslocar, e ir ao estado 117
+    MOD   deslocar, e ir ao estado 118
+
+    $padrão  reduzir usando a regra 70 (additive_expression)
+
+
+Estado 75
+
+   73 term: factor •
+
+    $padrão  reduzir usando a regra 73 (term)
+
+
+Estado 76
+
+   10 literal-list: literal-list COMMA literal •
+
+    $padrão  reduzir usando a regra 10 (literal-list)
+
+
+Estado 77
+
+   17 var-declaration: ID COLON array-type ASSIGN LBRACE literal-list RBRACE SEMICOLON •
+
+    $padrão  reduzir usando a regra 17 (var-declaration)
+
+
+Estado 78
+
+   23 param: ID COLON ARRAY LBRACKET • RBRACKET simple-type
+
+    RBRACKET  deslocar, e ir ao estado 119
+
+
+Estado 79
+
+   35 statement: IF LPAREN • expression RPAREN statement-list SEMICOLON
+   36          | IF LPAREN • expression RPAREN statement-list ELSE statement-list SEMICOLON
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call        ir ao estado 67
+    expression           ir ao estado 120
+    var-call             ir ao estado 71
+    simple_expression    ir ao estado 72
+    additive_expression  ir ao estado 73
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 80
+
+   59 var-call: ID •
+   60         | ID • LBRACKET NUM RBRACKET
+
+    LBRACKET  deslocar, e ir ao estado 86
+
+    $padrão  reduzir usando a regra 59 (var-call)
+
+
+Estado 81
+
+   44 print-statement: PRINT NUM •
+
+    $padrão  reduzir usando a regra 44 (print-statement)
+
+
+Estado 82
+
+   45 print-statement: PRINT var-call •
+
+    $padrão  reduzir usando a regra 45 (print-statement)
+
+
+Estado 83
+
+   37 statement: WHILE LPAREN • expression RPAREN function-block SEMICOLON
+   38          | WHILE LPAREN • expression RPAREN statement SEMICOLON
+   39          | WHILE LPAREN • expression RPAREN var-declaration SEMICOLON
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call        ir ao estado 67
+    expression           ir ao estado 121
+    var-call             ir ao estado 71
+    simple_expression    ir ao estado 72
+    additive_expression  ir ao estado 73
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 84
+
+   14 var-declaration: ID COLON • simple-type SEMICOLON
+   15                | ID COLON • simple-type ASSIGN literal SEMICOLON
+   16                | ID COLON • array-type SEMICOLON
+   17                | ID COLON • array-type ASSIGN LBRACE literal-list RBRACE SEMICOLON
+
+    ARRAY    deslocar, e ir ao estado 10
+    BOOLEAN  deslocar, e ir ao estado 11
+    INTEGER  deslocar, e ir ao estado 13
+
+    simple-type  ir ao estado 14
+    array-type   ir ao estado 15
+
+
+Estado 85
+
+   49 args: LPAREN • RPAREN
+   50     | LPAREN • args-list RPAREN
+
+    ID      deslocar, e ir ao estado 122
+    RPAREN  deslocar, e ir ao estado 123
+
+    args-list  ir ao estado 124
+
+
+Estado 86
+
+   60 var-call: ID LBRACKET • NUM RBRACKET
+
+    NUM  deslocar, e ir ao estado 125
+
+
+Estado 87
+
+   48 function-call: ID args •
+
+    $padrão  reduzir usando a regra 48 (function-call)
+
+
+Estado 88
+
+   48 function-call: ID • args
+   59 var-call: ID •
+   60         | ID • LBRACKET NUM RBRACKET
+
+    LPAREN    deslocar, e ir ao estado 85
+    LBRACKET  deslocar, e ir ao estado 86
+
+    $padrão  reduzir usando a regra 59 (var-call)
+
+    args  ir ao estado 87
+
+
+Estado 89
+
+   46 return-statement: RETURN expression •
+
+    $padrão  reduzir usando a regra 46 (return-statement)
+
+
+Estado 90
+
+   80 factor: var-call •
+
+    $padrão  reduzir usando a regra 80 (factor)
+
+
+Estado 91
+
+   78 factor: NOT factor •
+
+    $padrão  reduzir usando a regra 78 (factor)
+
+
+Estado 92
+
+   79 factor: LPAREN expression • RPAREN
+
+    RPAREN  deslocar, e ir ao estado 126
+
+
+Estado 93
+
+   34 block: LBRACE RBRACE •
+
+    $padrão  reduzir usando a regra 34 (block)
+
+
+Estado 94
+
+   31 block: LBRACE var-declaration-list • statement-list RBRACE
+   32      | LBRACE var-declaration-list • RBRACE
+
+    IF      deslocar, e ir ao estado 52
+    PRINT   deslocar, e ir ao estado 53
+    WHILE   deslocar, e ir ao estado 54
+    ID      deslocar, e ir ao estado 88
+    RETURN  deslocar, e ir ao estado 56
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    LBRACE  deslocar, e ir ao estado 59
+    RBRACE  deslocar, e ir ao estado 127
+    NUM     deslocar, e ir ao estado 61
+
+    block                ir ao estado 63
+    statement            ir ao estado 64
+    print-statement      ir ao estado 65
+    return-statement     ir ao estado 66
+    function-call        ir ao estado 67
+    statement-list       ir ao estado 128
+    expression           ir ao estado 70
+    var-call             ir ao estado 71
+    simple_expression    ir ao estado 72
+    additive_expression  ir ao estado 73
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 95
+
+   33 block: LBRACE statement-list • RBRACE
+
+    RBRACE  deslocar, e ir ao estado 129
+
+
+Estado 96
+
+   14 var-declaration: ID • COLON simple-type SEMICOLON
+   15                | ID • COLON simple-type ASSIGN literal SEMICOLON
+   16                | ID • COLON array-type SEMICOLON
+   17                | ID • COLON array-type ASSIGN LBRACE literal-list RBRACE SEMICOLON
+
+    COLON  deslocar, e ir ao estado 84
+
+
+Estado 97
+
+   54 var-declaration-list: var-declaration var-declaration-list •
+
+    $padrão  reduzir usando a regra 54 (var-declaration-list)
+
+
+Estado 98
+
+   56 statement-list: statement statement-list •
+
+    $padrão  reduzir usando a regra 56 (statement-list)
+
+
+Estado 99
+
+   40 statement: print-statement SEMICOLON •
+
+    $padrão  reduzir usando a regra 40 (statement)
+
+
+Estado 100
+
+   42 statement: return-statement SEMICOLON •
+
+    $padrão  reduzir usando a regra 42 (statement)
+
+
+Estado 101
+
+   28 function-block: LBRACE var-declaration-list RBRACE •
+
+    $padrão  reduzir usando a regra 28 (function-block)
+
+
+Estado 102
+
+   27 function-block: LBRACE var-declaration-list statement-list • RBRACE
+
+    RBRACE  deslocar, e ir ao estado 130
+
+
+Estado 103
+
+   29 function-block: LBRACE statement-list RBRACE •
+
+    $padrão  reduzir usando a regra 29 (function-block)
+
+
+Estado 104
+
+   41 statement: expression SEMICOLON •
+
+    $padrão  reduzir usando a regra 41 (statement)
+
+
+Estado 105
+
+   57 expression: var-call ASSIGN • expression
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call        ir ao estado 67
+    expression           ir ao estado 131
+    var-call             ir ao estado 71
+    simple_expression    ir ao estado 72
+    additive_expression  ir ao estado 73
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 106
+
+   71 additive_expression: additive_expression PLUS • term
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call  ir ao estado 67
+    var-call       ir ao estado 90
+    term           ir ao estado 132
+    factor         ir ao estado 75
+
+
+Estado 107
+
+   72 additive_expression: additive_expression MINUS • term
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call  ir ao estado 67
+    var-call       ir ao estado 90
+    term           ir ao estado 133
+    factor         ir ao estado 75
+
+
+Estado 108
+
+   62 simple_expression: additive_expression LESS • additive_expression
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call        ir ao estado 67
+    var-call             ir ao estado 90
+    additive_expression  ir ao estado 134
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 109
+
+   63 simple_expression: additive_expression GREATER • additive_expression
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call        ir ao estado 67
+    var-call             ir ao estado 90
+    additive_expression  ir ao estado 135
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 110
+
+   65 simple_expression: additive_expression LESS_OR_EQUAL • additive_expression
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call        ir ao estado 67
+    var-call             ir ao estado 90
+    additive_expression  ir ao estado 136
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 111
+
+   64 simple_expression: additive_expression GREATER_OR_EQUAL • additive_expression
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call        ir ao estado 67
+    var-call             ir ao estado 90
+    additive_expression  ir ao estado 137
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 112
+
+   66 simple_expression: additive_expression EQUALS • additive_expression
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call        ir ao estado 67
+    var-call             ir ao estado 90
+    additive_expression  ir ao estado 138
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 113
+
+   67 simple_expression: additive_expression NEQUAL • additive_expression
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call        ir ao estado 67
+    var-call             ir ao estado 90
+    additive_expression  ir ao estado 139
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 114
+
+   68 simple_expression: additive_expression AND • additive_expression
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call        ir ao estado 67
+    var-call             ir ao estado 90
+    additive_expression  ir ao estado 140
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 115
+
+   69 simple_expression: additive_expression OR • additive_expression
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call        ir ao estado 67
+    var-call             ir ao estado 90
+    additive_expression  ir ao estado 141
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 116
+
+   74 term: term MULT • factor
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call  ir ao estado 67
+    var-call       ir ao estado 90
+    factor         ir ao estado 142
+
+
+Estado 117
+
+   75 term: term DIV • factor
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call  ir ao estado 67
+    var-call       ir ao estado 90
+    factor         ir ao estado 143
+
+
+Estado 118
+
+   76 term: term MOD • factor
+
+    ID      deslocar, e ir ao estado 88
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    NUM     deslocar, e ir ao estado 61
+
+    function-call  ir ao estado 67
+    var-call       ir ao estado 90
+    factor         ir ao estado 144
+
+
+Estado 119
+
+   23 param: ID COLON ARRAY LBRACKET RBRACKET • simple-type
+
+    BOOLEAN  deslocar, e ir ao estado 11
+    INTEGER  deslocar, e ir ao estado 13
+
+    simple-type  ir ao estado 145
+
+
+Estado 120
+
+   35 statement: IF LPAREN expression • RPAREN statement-list SEMICOLON
+   36          | IF LPAREN expression • RPAREN statement-list ELSE statement-list SEMICOLON
+
+    RPAREN  deslocar, e ir ao estado 146
+
+
+Estado 121
+
+   37 statement: WHILE LPAREN expression • RPAREN function-block SEMICOLON
+   38          | WHILE LPAREN expression • RPAREN statement SEMICOLON
+   39          | WHILE LPAREN expression • RPAREN var-declaration SEMICOLON
+
+    RPAREN  deslocar, e ir ao estado 147
+
+
+Estado 122
+
+   51 args-list: ID •
+
+    $padrão  reduzir usando a regra 51 (args-list)
+
+
+Estado 123
+
+   49 args: LPAREN RPAREN •
+
+    $padrão  reduzir usando a regra 49 (args)
+
+
+Estado 124
+
+   50 args: LPAREN args-list • RPAREN
+   52 args-list: args-list • COMMA ID
+
+    COMMA   deslocar, e ir ao estado 148
+    RPAREN  deslocar, e ir ao estado 149
+
+
+Estado 125
+
+   60 var-call: ID LBRACKET NUM • RBRACKET
+
+    RBRACKET  deslocar, e ir ao estado 150
+
+
+Estado 126
+
+   79 factor: LPAREN expression RPAREN •
+
+    $padrão  reduzir usando a regra 79 (factor)
+
+
+Estado 127
+
+   32 block: LBRACE var-declaration-list RBRACE •
+
+    $padrão  reduzir usando a regra 32 (block)
+
+
+Estado 128
+
+   31 block: LBRACE var-declaration-list statement-list • RBRACE
+
+    RBRACE  deslocar, e ir ao estado 151
+
+
+Estado 129
+
+   33 block: LBRACE statement-list RBRACE •
+
+    $padrão  reduzir usando a regra 33 (block)
+
+
+Estado 130
+
+   27 function-block: LBRACE var-declaration-list statement-list RBRACE •
+
+    $padrão  reduzir usando a regra 27 (function-block)
+
+
+Estado 131
+
+   57 expression: var-call ASSIGN expression •
+
+    $padrão  reduzir usando a regra 57 (expression)
+
+
+Estado 132
+
+   71 additive_expression: additive_expression PLUS term •
+   74 term: term • MULT factor
+   75     | term • DIV factor
+   76     | term • MOD factor
+
+    MULT  deslocar, e ir ao estado 116
+    DIV   deslocar, e ir ao estado 117
+    MOD   deslocar, e ir ao estado 118
+
+    $padrão  reduzir usando a regra 71 (additive_expression)
+
+
+Estado 133
+
+   72 additive_expression: additive_expression MINUS term •
+   74 term: term • MULT factor
+   75     | term • DIV factor
+   76     | term • MOD factor
+
+    MULT  deslocar, e ir ao estado 116
+    DIV   deslocar, e ir ao estado 117
+    MOD   deslocar, e ir ao estado 118
+
+    $padrão  reduzir usando a regra 72 (additive_expression)
+
+
+Estado 134
+
+   62 simple_expression: additive_expression LESS additive_expression •
+   71 additive_expression: additive_expression • PLUS term
+   72                    | additive_expression • MINUS term
+
+    PLUS   deslocar, e ir ao estado 106
+    MINUS  deslocar, e ir ao estado 107
+
+    $padrão  reduzir usando a regra 62 (simple_expression)
+
+
+Estado 135
+
+   63 simple_expression: additive_expression GREATER additive_expression •
+   71 additive_expression: additive_expression • PLUS term
+   72                    | additive_expression • MINUS term
+
+    PLUS   deslocar, e ir ao estado 106
+    MINUS  deslocar, e ir ao estado 107
+
+    $padrão  reduzir usando a regra 63 (simple_expression)
+
+
+Estado 136
+
+   65 simple_expression: additive_expression LESS_OR_EQUAL additive_expression •
+   71 additive_expression: additive_expression • PLUS term
+   72                    | additive_expression • MINUS term
+
+    PLUS   deslocar, e ir ao estado 106
+    MINUS  deslocar, e ir ao estado 107
+
+    $padrão  reduzir usando a regra 65 (simple_expression)
+
+
+Estado 137
+
+   64 simple_expression: additive_expression GREATER_OR_EQUAL additive_expression •
+   71 additive_expression: additive_expression • PLUS term
+   72                    | additive_expression • MINUS term
+
+    PLUS   deslocar, e ir ao estado 106
+    MINUS  deslocar, e ir ao estado 107
+
+    $padrão  reduzir usando a regra 64 (simple_expression)
+
+
+Estado 138
+
+   66 simple_expression: additive_expression EQUALS additive_expression •
+   71 additive_expression: additive_expression • PLUS term
+   72                    | additive_expression • MINUS term
+
+    PLUS   deslocar, e ir ao estado 106
+    MINUS  deslocar, e ir ao estado 107
+
+    $padrão  reduzir usando a regra 66 (simple_expression)
+
+
+Estado 139
+
+   67 simple_expression: additive_expression NEQUAL additive_expression •
+   71 additive_expression: additive_expression • PLUS term
+   72                    | additive_expression • MINUS term
+
+    PLUS   deslocar, e ir ao estado 106
+    MINUS  deslocar, e ir ao estado 107
+
+    $padrão  reduzir usando a regra 67 (simple_expression)
+
+
+Estado 140
+
+   68 simple_expression: additive_expression AND additive_expression •
+   71 additive_expression: additive_expression • PLUS term
+   72                    | additive_expression • MINUS term
+
+    PLUS   deslocar, e ir ao estado 106
+    MINUS  deslocar, e ir ao estado 107
+
+    $padrão  reduzir usando a regra 68 (simple_expression)
+
+
+Estado 141
+
+   69 simple_expression: additive_expression OR additive_expression •
+   71 additive_expression: additive_expression • PLUS term
+   72                    | additive_expression • MINUS term
+
+    PLUS   deslocar, e ir ao estado 106
+    MINUS  deslocar, e ir ao estado 107
+
+    $padrão  reduzir usando a regra 69 (simple_expression)
+
+
+Estado 142
+
+   74 term: term MULT factor •
+
+    $padrão  reduzir usando a regra 74 (term)
+
+
+Estado 143
+
+   75 term: term DIV factor •
+
+    $padrão  reduzir usando a regra 75 (term)
+
+
+Estado 144
+
+   76 term: term MOD factor •
+
+    $padrão  reduzir usando a regra 76 (term)
+
+
+Estado 145
+
+   23 param: ID COLON ARRAY LBRACKET RBRACKET simple-type •
+
+    $padrão  reduzir usando a regra 23 (param)
+
+
+Estado 146
+
+   35 statement: IF LPAREN expression RPAREN • statement-list SEMICOLON
+   36          | IF LPAREN expression RPAREN • statement-list ELSE statement-list SEMICOLON
+
+    IF      deslocar, e ir ao estado 52
+    PRINT   deslocar, e ir ao estado 53
+    WHILE   deslocar, e ir ao estado 54
+    ID      deslocar, e ir ao estado 88
+    RETURN  deslocar, e ir ao estado 56
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    LBRACE  deslocar, e ir ao estado 59
+    NUM     deslocar, e ir ao estado 61
+
+    block                ir ao estado 63
+    statement            ir ao estado 64
+    print-statement      ir ao estado 65
+    return-statement     ir ao estado 66
+    function-call        ir ao estado 67
+    statement-list       ir ao estado 152
+    expression           ir ao estado 70
+    var-call             ir ao estado 71
+    simple_expression    ir ao estado 72
+    additive_expression  ir ao estado 73
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 147
+
+   37 statement: WHILE LPAREN expression RPAREN • function-block SEMICOLON
+   38          | WHILE LPAREN expression RPAREN • statement SEMICOLON
+   39          | WHILE LPAREN expression RPAREN • var-declaration SEMICOLON
+
+    IF      deslocar, e ir ao estado 52
+    PRINT   deslocar, e ir ao estado 53
+    WHILE   deslocar, e ir ao estado 54
+    ID      deslocar, e ir ao estado 55
+    RETURN  deslocar, e ir ao estado 56
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    LBRACE  deslocar, e ir ao estado 153
+    NUM     deslocar, e ir ao estado 61
+
+    var-declaration      ir ao estado 154
+    function-block       ir ao estado 155
+    block                ir ao estado 63
+    statement            ir ao estado 156
+    print-statement      ir ao estado 65
+    return-statement     ir ao estado 66
+    function-call        ir ao estado 67
+    expression           ir ao estado 70
+    var-call             ir ao estado 71
+    simple_expression    ir ao estado 72
+    additive_expression  ir ao estado 73
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 148
+
+   52 args-list: args-list COMMA • ID
+
+    ID  deslocar, e ir ao estado 157
+
+
+Estado 149
+
+   50 args: LPAREN args-list RPAREN •
+
+    $padrão  reduzir usando a regra 50 (args)
+
+
+Estado 150
+
+   60 var-call: ID LBRACKET NUM RBRACKET •
+
+    $padrão  reduzir usando a regra 60 (var-call)
+
+
+Estado 151
+
+   31 block: LBRACE var-declaration-list statement-list RBRACE •
+
+    $padrão  reduzir usando a regra 31 (block)
+
+
+Estado 152
+
+   35 statement: IF LPAREN expression RPAREN statement-list • SEMICOLON
+   36          | IF LPAREN expression RPAREN statement-list • ELSE statement-list SEMICOLON
+
+    ELSE       deslocar, e ir ao estado 158
+    SEMICOLON  deslocar, e ir ao estado 159
+
+
+Estado 153
+
+   27 function-block: LBRACE • var-declaration-list statement-list RBRACE
+   28               | LBRACE • var-declaration-list RBRACE
+   29               | LBRACE • statement-list RBRACE
+   30               | LBRACE • RBRACE
+   31 block: LBRACE • var-declaration-list statement-list RBRACE
+   32      | LBRACE • var-declaration-list RBRACE
+   33      | LBRACE • statement-list RBRACE
+   34      | LBRACE • RBRACE
+
+    IF      deslocar, e ir ao estado 52
+    PRINT   deslocar, e ir ao estado 53
+    WHILE   deslocar, e ir ao estado 54
+    ID      deslocar, e ir ao estado 55
+    RETURN  deslocar, e ir ao estado 56
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    LBRACE  deslocar, e ir ao estado 59
+    RBRACE  deslocar, e ir ao estado 160
+    NUM     deslocar, e ir ao estado 61
+
+    var-declaration       ir ao estado 62
+    block                 ir ao estado 63
+    statement             ir ao estado 64
+    print-statement       ir ao estado 65
+    return-statement      ir ao estado 66
+    function-call         ir ao estado 67
+    var-declaration-list  ir ao estado 161
+    statement-list        ir ao estado 162
+    expression            ir ao estado 70
+    var-call              ir ao estado 71
+    simple_expression     ir ao estado 72
+    additive_expression   ir ao estado 73
+    term                  ir ao estado 74
+    factor                ir ao estado 75
+
+
+Estado 154
+
+   39 statement: WHILE LPAREN expression RPAREN var-declaration • SEMICOLON
+
+    SEMICOLON  deslocar, e ir ao estado 163
+
+
+Estado 155
+
+   37 statement: WHILE LPAREN expression RPAREN function-block • SEMICOLON
+
+    SEMICOLON  deslocar, e ir ao estado 164
+
+
+Estado 156
+
+   38 statement: WHILE LPAREN expression RPAREN statement • SEMICOLON
+
+    SEMICOLON  deslocar, e ir ao estado 165
+
+
+Estado 157
+
+   52 args-list: args-list COMMA ID •
+
+    $padrão  reduzir usando a regra 52 (args-list)
+
+
+Estado 158
+
+   36 statement: IF LPAREN expression RPAREN statement-list ELSE • statement-list SEMICOLON
+
+    IF      deslocar, e ir ao estado 52
+    PRINT   deslocar, e ir ao estado 53
+    WHILE   deslocar, e ir ao estado 54
+    ID      deslocar, e ir ao estado 88
+    RETURN  deslocar, e ir ao estado 56
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    LBRACE  deslocar, e ir ao estado 59
+    NUM     deslocar, e ir ao estado 61
+
+    block                ir ao estado 63
+    statement            ir ao estado 64
+    print-statement      ir ao estado 65
+    return-statement     ir ao estado 66
+    function-call        ir ao estado 67
+    statement-list       ir ao estado 166
+    expression           ir ao estado 70
+    var-call             ir ao estado 71
+    simple_expression    ir ao estado 72
+    additive_expression  ir ao estado 73
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 159
+
+   35 statement: IF LPAREN expression RPAREN statement-list SEMICOLON •
+
+    $padrão  reduzir usando a regra 35 (statement)
+
+
+Estado 160
+
+   30 function-block: LBRACE RBRACE •
+   34 block: LBRACE RBRACE •
+
+    SEMICOLON  reduzir usando a regra 30 (function-block)
+    SEMICOLON  [reduzir usando a regra 34 (block)]
+    $padrão    reduzir usando a regra 30 (function-block)
+
+
+Estado 161
+
+   27 function-block: LBRACE var-declaration-list • statement-list RBRACE
+   28               | LBRACE var-declaration-list • RBRACE
+   31 block: LBRACE var-declaration-list • statement-list RBRACE
+   32      | LBRACE var-declaration-list • RBRACE
+
+    IF      deslocar, e ir ao estado 52
+    PRINT   deslocar, e ir ao estado 53
+    WHILE   deslocar, e ir ao estado 54
+    ID      deslocar, e ir ao estado 88
+    RETURN  deslocar, e ir ao estado 56
+    NOT     deslocar, e ir ao estado 57
+    LPAREN  deslocar, e ir ao estado 58
+    LBRACE  deslocar, e ir ao estado 59
+    RBRACE  deslocar, e ir ao estado 167
+    NUM     deslocar, e ir ao estado 61
+
+    block                ir ao estado 63
+    statement            ir ao estado 64
+    print-statement      ir ao estado 65
+    return-statement     ir ao estado 66
+    function-call        ir ao estado 67
+    statement-list       ir ao estado 168
+    expression           ir ao estado 70
+    var-call             ir ao estado 71
+    simple_expression    ir ao estado 72
+    additive_expression  ir ao estado 73
+    term                 ir ao estado 74
+    factor               ir ao estado 75
+
+
+Estado 162
+
+   29 function-block: LBRACE statement-list • RBRACE
+   33 block: LBRACE statement-list • RBRACE
+
+    RBRACE  deslocar, e ir ao estado 169
+
+
+Estado 163
+
+   39 statement: WHILE LPAREN expression RPAREN var-declaration SEMICOLON •
+
+    $padrão  reduzir usando a regra 39 (statement)
+
+
+Estado 164
+
+   37 statement: WHILE LPAREN expression RPAREN function-block SEMICOLON •
+
+    $padrão  reduzir usando a regra 37 (statement)
+
+
+Estado 165
+
+   38 statement: WHILE LPAREN expression RPAREN statement SEMICOLON •
+
+    $padrão  reduzir usando a regra 38 (statement)
+
+
+Estado 166
+
+   36 statement: IF LPAREN expression RPAREN statement-list ELSE statement-list • SEMICOLON
+
+    SEMICOLON  deslocar, e ir ao estado 170
+
+
+Estado 167
+
+   28 function-block: LBRACE var-declaration-list RBRACE •
+   32 block: LBRACE var-declaration-list RBRACE •
+
+    SEMICOLON  reduzir usando a regra 28 (function-block)
+    SEMICOLON  [reduzir usando a regra 32 (block)]
+    $padrão    reduzir usando a regra 28 (function-block)
+
+
+Estado 168
+
+   27 function-block: LBRACE var-declaration-list statement-list • RBRACE
+   31 block: LBRACE var-declaration-list statement-list • RBRACE
+
+    RBRACE  deslocar, e ir ao estado 171
+
+
+Estado 169
+
+   29 function-block: LBRACE statement-list RBRACE •
+   33 block: LBRACE statement-list RBRACE •
+
+    SEMICOLON  reduzir usando a regra 29 (function-block)
+    SEMICOLON  [reduzir usando a regra 33 (block)]
+    $padrão    reduzir usando a regra 29 (function-block)
+
+
+Estado 170
+
+   36 statement: IF LPAREN expression RPAREN statement-list ELSE statement-list SEMICOLON •
+
+    $padrão  reduzir usando a regra 36 (statement)
+
+
+Estado 171
+
+   27 function-block: LBRACE var-declaration-list statement-list RBRACE •
+   31 block: LBRACE var-declaration-list statement-list RBRACE •
+
+    SEMICOLON  reduzir usando a regra 27 (function-block)
+    SEMICOLON  [reduzir usando a regra 31 (block)]
+    $padrão    reduzir usando a regra 27 (function-block)

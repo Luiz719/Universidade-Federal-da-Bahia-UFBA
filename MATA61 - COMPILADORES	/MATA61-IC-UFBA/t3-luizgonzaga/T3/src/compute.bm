@@ -1,0 +1,10 @@
+compute: function integer ( x:integer ) = {
+    i: integer = 0;
+    total: integer = x;
+
+    while (i<10) {
+        total = total + i;
+	i = i + 1;
+    }
+    return total;
+}

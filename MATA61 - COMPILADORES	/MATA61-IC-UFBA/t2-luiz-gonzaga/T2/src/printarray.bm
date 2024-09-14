@@ -1,0 +1,7 @@
+printarray: function void
+ ( a: array [] integer, size: integer ) = {
+    i: integer = 0;
+    while (i<size) {
+        print a[i]; i = i + 1;
+    }
+} 
