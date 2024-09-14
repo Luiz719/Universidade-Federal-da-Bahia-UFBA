@@ -1,0 +1,203 @@
+FUNCTION_BLOCK bullet
+
+VAR_INPUT				
+	distanceToEnemy : REAL;
+	enemyEnergy : REAL;
+	robotEnergy : REAL;
+	hitRate : REAL;
+	avgEnemyBulletPower : REAL;
+
+END_VAR
+
+VAR_OUTPUT				
+	bulletPower : REAL;		
+END_VAR
+
+FUZZIFY distanceToEnemy
+	TERM near := trape 0 0 150 300; 
+	TERM medium := trape 175 250 450 600;
+	TERM far := trape 400 670 2000 2000;
+END_FUZZIFY
+
+FUZZIFY enemyEnergy	
+	TERM low := trape 0 0 25 47;
+	TERM medium := trape 35 40 50 70;
+	TERM high := trape 60 80 200 400;
+END_FUZZIFY
+
+FUZZIFY robotEnergy	
+	TERM low := trape 0 0 25 47;
+	TERM medium := trape 35 40 50 70;
+	TERM high := trape 60 80 200 400;
+END_FUZZIFY
+
+FUZZIFY hitRate	
+	TERM low := trape 0 0 0.10 0.30;
+	TERM medium := trape 0.20 0.40 0.45 0.60;
+	TERM high := trape 0.50 0.70 1 1;
+END_FUZZIFY
+
+FUZZIFY avgEnemyBulletPower	
+	TERM weak := trape 0.01 1.0 1.5 1.9;
+	TERM normal := trape 1.7 2.2 2.5 2.7;
+	TERM strong := trape 2.4 2.6 3 3;
+END_FUZZIFY
+
+DEFUZZIFY bulletPower			
+	TERM weak := trape 0.01 1.0 1.5 1.9;
+	TERM normal := trape 1.7 2.2 2.5 2.7;
+	TERM strong := trape 2.5 2.8 3 4;
+	METHOD : COG;		// Método 'Centro da gravidade'
+	DEFAULT := 1.9;		// Valor default (se nenhuma das regras ativar o defuzzifier)
+END_DEFUZZIFY
+
+RULEBLOCK No1
+	AND : MIN;			// É comum utilizar o método MIN para o operador AND, e o método MAX para o operador OR.
+	ACT : MIN;			// Use 'min' activation method
+	ACCU : MAX;			// Use 'max' accumulation method
+
+	RULE 1 : IF distanceToEnemy IS near AND NOT robotEnergy IS low THEN bulletPower IS strong;
+	RULE 2 : IF distanceToEnemy IS near THEN bulletPower IS strong;
+	RULE 3 : IF distanceToEnemy IS medium AND robotEnergy IS low THEN bulletPower IS weak;
+	RULE 4 : IF distanceToEnemy IS medium AND robotEnergy IS medium THEN bulletPower IS normal;
+	RULE 5 : IF distanceToEnemy IS medium AND robotEnergy IS high AND NOT enemyEnergy IS high THEN bulletPower IS normal;
+	RULE 6 : IF distanceToEnemy IS far AND hitRate IS high AND NOT enemyEnergy IS high THEN bulletPower IS normal;
+	RULE 7 : IF distanceToEnemy IS far AND NOT hitRate IS high THEN bulletPower IS weak; 
+	RULE 8 : IF avgEnemyBulletPower IS weak AND robotEnergy IS low THEN bulletPower IS weak;
+	RULE 9 : IF avgEnemyBulletPower IS normal THEN bulletPower IS normal;
+	RULE 10 : IF avgEnemyBulletPower IS strong THEN bulletPower IS strong;
+	RULE 11 : IF hitRate IS medium OR hitRate IS high THEN bulletPower IS strong;
+	RULE 12 : IF enemyEnergy IS medium AND robotEnergy IS high THEN bulletPower IS normal;
+	RULE 12 : IF enemyEnergy IS low AND NOT hitRate IS low THEN bulletPower IS strong;
+  RULE 13 : IF hitRate IS low OR robotEnergy IS low THEN bulletPower IS weak;
+
+
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK profile
+
+  VAR_INPUT
+    velocity : REAL;
+    latVelocity : REAL;
+    distance : REAL;
+    bulletPower : REAL;
+    offset : REAL;
+    forwardWallDistance : REAL;
+    backWallDistance : REAL;
+  END_VAR
+
+  VAR_OUTPUT
+    profile : REAL;
+  END_VAR
+
+  FUZZIFY velocity
+    TERM VerySlow := trape 0 0 0.9 1.8;
+    TERM Slow := trian 1.5 3 3.8;
+    TERM Medium := trian 3.2 4.5 6.5;
+    TERM Fast := trian 5 6 7.4;
+    TERM VeryFast := trape 6.8 7.6 8 8;
+  END_FUZZIFY
+
+  FUZZIFY latVelocity
+    TERM VerySlow := trape 0 0 0.9 1.8;
+    TERM Slow := trian 1.5 3 3.8;
+    TERM Medium := trian 3.2 4.5 6.5;
+    TERM Fast := trian 5 6 7.4;
+    TERM VeryFast := trape 6.8 7.6 8 8;
+  END_FUZZIFY
+
+  FUZZIFY distance
+    TERM VeryClose := trape 0 0 80 150;
+    TERM Close := gauss 270 80;
+    TERM Medium := gauss 420 100;
+    TERM Far := gauss 600 200;
+    TERM VeryFar := trape 600 700 1000 1200;
+  END_FUZZIFY
+
+  FUZZIFY bulletPower
+    TERM VeryWeak := trape 0.0 0.1 0.3 0.7;
+    TERM Weak :=  trian 0.5 1 1.5;
+    TERM Medium := gauss 2 0.3;
+    TERM Strong := trian 1.8 2.3 2.7;
+    TERM VeryStrong := trape 2.5 2.8 3.0 3.0;
+  END_FUZZIFY
+
+  FUZZIFY offset
+    TERM VerySmall := trape 0 0 0.16 0.3;
+    TERM Small := trian 0.2 0.34 0.45;
+    TERM Medium := trian 0.4 0.6 0.73;
+    TERM Large := trian 0.6 0.75 0.84;
+    TERM VeryLarge := trape 0.73 0.8 1.0 1.0;
+  END_FUZZIFY
+
+  FUZZIFY forwardWallDistance
+    TERM VeryNear := trape 0 0 80 150;
+    TERM Near := gauss 270 80;
+    TERM Medium := gauss 420 100;
+    TERM Far := gauss 600 200;
+    TERM VeryFar := trape 600 700 1000 1200;
+  END_FUZZIFY
+
+  FUZZIFY backWallDistance
+    TERM VeryNear := trape 0 0 80 150;
+    TERM Near := gauss 270 80;
+    TERM Medium := gauss 420 100;
+    TERM Far := gauss 600 200;
+    TERM VeryFar := trape 600 700 1000 1200;
+  END_FUZZIFY
+
+  DEFUZZIFY profile
+    TERM Fragile := trape -20 -20 -5 5;
+    TERM CornerPassive := gauss 10 6;
+    TERM WallEvader := gauss 20 7;
+    TERM Defensive := gauss 30 10;
+    TERM FastDefender := gauss 50 10;
+    TERM Strategic := gauss 70 10;
+    TERM FastFurious := gauss 80 7;
+    TERM Aggressive := trape 85 90 120 120;
+    METHOD : COG;
+    DEFAULT := 30;
+  END_DEFUZZIFY
+
+  RULEBLOCK No1
+    AND : MIN;
+    ACT : MIN;			
+    ACCU : MAX;	
+
+    RULE 1 : IF distance IS VeryClose OR bulletPower IS Strong OR bulletPower IS VeryStrong THEN profile IS Aggressive;
+    RULE 2 : IF forwardWallDistance IS VeryNear OR backWallDistance IS VeryNear THEN profile IS CornerPassive;
+    RULE 3 : IF velocity IS VeryFast OR velocity IS Fast AND (latVelocity IS VerySlow OR latVelocity IS Slow) THEN profile IS Aggressive;
+    RULE 4 : IF velocity IS VeryFast OR velocity IS Fast AND (bulletPower IS Strong OR bulletPower IS VeryStrong) THEN profile IS FastFurious;
+    RULE 5 : IF forwardWallDistance IS VeryNear OR backWallDistance IS VeryNear AND (offset IS Large OR offset IS VeryLarge) THEN profile IS WallEvader;
+    RULE 6 : IF distance IS Medium AND velocity IS Medium THEN profile IS FastFurious;
+    RULE 7 : IF distance IS Far AND (velocity IS Slow OR velocity IS VerySlow) AND NOT(bulletPower IS VeryStrong OR bulletPower IS Strong) THEN profile IS WallEvader;
+    RULE 8 : IF distance IS VeryFar AND bulletPower IS VeryWeak THEN profile IS Fragile;
+    RULE 9 : IF distance IS Close AND (forwardWallDistance IS Medium OR backWallDistance IS Medium) THEN profile IS Strategic;
+    RULE 10 : IF offset IS Small OR offset IS VerySmall AND bulletPower IS Medium THEN profile IS Strategic;
+    RULE 11 : IF latVelocity IS Medium AND velocity IS Medium THEN profile IS Defensive;
+    RULE 12 : IF latVelocity IS Slow OR latVelocity IS VerySlow AND distance IS Medium THEN profile IS FastFurious;
+    RULE 12 : IF latVelocity IS VeryFast OR latVelocity IS Fast AND NOT(distance IS Close OR distance IS VeryClose) THEN profile IS FastDefender;
+    RULE 13 : IF distance IS VeryClose THEN profile IS Aggressive;
+    RULE 14 : IF distance IS Far OR distance IS VeryFar AND (latVelocity IS Slow OR velocity IS VerySlow) THEN profile IS CornerPassive;
+    RULE 15 : IF forwardWallDistance IS Medium AND backWallDistance IS Medium THEN profile IS FastFurious;
+    RULE 16 : IF offset IS Small OR offset IS VerySmall AND (velocity IS Slow OR velocity IS VerySlow) THEN profile IS Fragile;
+    RULE 17 : IF forwardWallDistance IS Far OR backWallDistance IS Far THEN profile IS WallEvader;
+    RULE 18 : IF distance IS Medium AND (bulletPower IS Weak OR bulletPower IS VeryWeak) THEN profile IS Defensive;
+    RULE 19 : IF offset IS Medium AND (velocity IS Medium OR latVelocity IS Medium) THEN profile IS Strategic;
+    RULE 20 : IF distance IS Far OR distance IS VeryFar AND (bulletPower IS Medium OR bulletPower IS Strong) THEN profile IS FastDefender;
+    RULE 21 : IF forwardWallDistance IS Near AND (velocity IS VerySlow OR velocity IS Slow) THEN profile IS CornerPassive;
+    RULE 22 : IF backWallDistance IS VeryFar AND (offset IS Medium OR offset IS Large) THEN profile IS Strategic;
+    RULE 23 : IF distance IS VeryFar AND (velocity IS VeryFast OR velocity IS Fast) THEN profile IS FastDefender;
+    RULE 24 : IF forwardWallDistance IS VeryNear AND backWallDistance IS VeryFar THEN profile IS WallEvader;
+    RULE 25 : IF distance IS Close AND (bulletPower IS VeryWeak OR bulletPower IS Weak) THEN profile IS Fragile;
+    RULE 26 : IF offset IS VeryLarge AND (distance IS Medium OR distance IS Close) THEN profile IS FastFurious;
+    RULE 27 : IF forwardWallDistance IS Medium OR forwardWallDistance IS Far AND (bulletPower IS Medium OR bulletPower IS Strong) THEN profile IS Aggressive;
+    RULE 28 : IF distance IS Far AND (velocity IS Medium OR velocity IS Fast) THEN profile IS FastDefender;
+    RULE 29 : IF velocity IS Medium OR velocity IS Slow AND (distance IS VeryClose OR distance IS Close) THEN profile IS FastFurious;
+    RULE 30 : IF offset IS Small AND (forwardWallDistance IS VeryNear OR backWallDistance IS VeryNear) THEN profile IS CornerPassive;
+
+  END_RULEBLOCK
+
+END_FUNCTION_BLOCK
