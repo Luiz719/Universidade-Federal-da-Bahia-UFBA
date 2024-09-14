@@ -1,0 +1,3 @@
+Seguem nesse arquivo compactado o relatório "Estudo experimental do Hashing Linear.pdf" e o código fonte "linearHashing.c"
+
+Os arquivos que estão nas pastas são os programas utilizados para fazer os experimentos, e seus respectivos resultados. Caso os mesmos não sejam necessarios para a avaliação, favor desconsidera-los.
