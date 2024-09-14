@@ -1,0 +1,8 @@
+Model Information:
+* title:	Taurus
+* source:	https://sketchfab.com/3d-models/taurus-f5f52ec6f2c741a2a3fe2d9146a2c1a3
+* author:	voguart (https://sketchfab.com/voguart)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

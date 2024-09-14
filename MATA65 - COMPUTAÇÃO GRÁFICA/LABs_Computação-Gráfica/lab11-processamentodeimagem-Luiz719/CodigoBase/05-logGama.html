@@ -1,0 +1,73 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+		<link rel="icon" type="image/x-icon" href="/Assets/icons/icon.png">	
+	</head>
+
+	<!-- Import maps polyfill -->
+	<!-- Remove this when import maps will be widely supported -->
+	<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+	<script type="importmap">
+		{
+			"imports": {
+				"three"	: 	"/Assets/scripts/three.js/build/three.module.js",
+				"gui" 	:	"/Assets/scripts/three.js/examples/jsm/libs/lil-gui.module.min.js"
+			}
+		}
+	</script>
+
+	<script id="grayScale-vs" type="x-shader/x-vertex">		
+	
+		varying vec2 vUv;			
+		void main(void) {
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+		}
+	</script>
+	
+	<script id="grayScale-fs" type="x-shader/x-fragment">
+		precision mediump float;
+		
+		uniform sampler2D 	uSampler;
+		uniform vec3		uW;
+		uniform float		uC;
+		uniform float		uGama;
+		uniform int 		uTransform;
+
+		varying vec2 		vUv;
+
+		vec3 logTransformation( in vec3 color ){
+			vec3 result = uC * log(color + 1.0);
+			return result;
+		}
+
+		vec3 gammaTransformation(in vec3 color) {
+            return uC * pow(color, vec3(uGama));
+        }
+
+		void main(void) {	
+			vec4 finalColor = texture2D(uSampler, vUv);
+
+			finalColor = vec4(finalColor.r*uW.x, finalColor.g*uW.y, finalColor.b*uW.z, finalColor.a);
+			vec3 result = finalColor.rgb;
+			if (uTransform == 1) {
+				result = logTransformation(finalColor.rgb);
+			}else if (uTransform == 2) {
+				result = gammaTransformation(finalColor.rgb);
+			}
+			gl_FragColor = vec4(result, 1.0);
+
+		}
+	</script>
+	
+	<script type=module src="./05-logGama.js"></script>
+	
+	<body>
+		<h3 id="output-text">Usando <i>Fragment Shaders</i> para processamento de imagens.</h3>
+		<div id="threejs-canvas"></div>
+	</body>
+</html>
+	</body>
+</html>

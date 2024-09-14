@@ -1,0 +1,11 @@
+Model Information:
+* title:	Stylized Deer
+* source:	https://sketchfab.com/3d-models/stylized-deer-6dcc0df864ef43fdba0e40af7f083802
+* author:	Ianenvart (https://sketchfab.com/Ianchiu0103)
+
+Model License:
+* license type:	CC-BY-SA-4.0 (http://creativecommons.org/licenses/by-sa/4.0/)
+* requirements:	Author must be credited. Modified versions must have the same license. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Stylized Deer" (https://sketchfab.com/3d-models/stylized-deer-6dcc0df864ef43fdba0e40af7f083802) by Ianenvart (https://sketchfab.com/Ianchiu0103) licensed under CC-BY-SA-4.0 (http://creativecommons.org/licenses/by-sa/4.0/)

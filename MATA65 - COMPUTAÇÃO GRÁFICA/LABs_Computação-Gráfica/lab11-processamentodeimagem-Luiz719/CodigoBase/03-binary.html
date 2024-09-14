@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+		<link rel="icon" type="image/x-icon" href="/Assets/icons/icon.png">	
+	</head>
+
+	<!-- Import maps polyfill -->
+	<!-- Remove this when import maps will be widely supported -->
+	<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+	<script type="importmap">
+		{
+			"imports": {
+				"three"	: 	"/Assets/scripts/three.js/build/three.module.js",
+				"gui" 	:	"/Assets/scripts/three.js/examples/jsm/libs/lil-gui.module.min.js"
+			}
+		}
+	</script>
+
+	<script id="grayScale-vs" type="x-shader/x-vertex">		
+	
+		varying vec2 vUv;			
+		void main(void) {
+			vUv = uv;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+		}
+	</script>
+	
+	<script id="grayScale-fs" type="x-shader/x-fragment">
+		precision mediump float;
+		
+		uniform sampler2D 	uSampler;
+		uniform vec3		uW;
+		uniform float		uK;
+		uniform bool		uGray;
+
+		varying vec2 		vUv;
+
+		vec3 binaryTransformation( in vec3 color ){
+			vec3 result = vec3(0.0, 0.0, 0.0);
+			if (color.x >= uK) result.x = 1.0;
+			if (color.y >= uK) result.y = 1.0;
+			if (color.z >= uK) result.z = 1.0;
+			return result;
+		}
+
+		void main(void) {	
+			vec4 finalColor = texture2D(uSampler, vUv);
+			if (uGray) {
+				float gray = (finalColor.r*uW.x + finalColor.g*uW.y + finalColor.b*uW.z);
+				finalColor = vec4( vec3(gray), finalColor.a);
+			}else{
+				finalColor = vec4(finalColor.r*uW.x, finalColor.g*uW.y, finalColor.b*uW.z, finalColor.a);
+			}
+			gl_FragColor = vec4(binaryTransformation(vec3(finalColor.x, finalColor.y, finalColor.z)), 1.0);
+		}
+	</script>
+	
+	<script type=module src="./03-binary.js"></script>
+	
+	<body>
+		<h3 id="output-text">Usando <i>Fragment Shaders</i> para processamento de imagens.</h3>
+		<div id="threejs-canvas"></div>
+	</body>
+</html>
+	</body>
+</html>

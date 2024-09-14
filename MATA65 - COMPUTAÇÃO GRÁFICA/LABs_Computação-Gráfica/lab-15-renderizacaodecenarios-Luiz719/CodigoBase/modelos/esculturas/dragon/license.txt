@@ -1,0 +1,11 @@
+Model Information:
+* title:	Little Dragon Sculpt
+* source:	https://sketchfab.com/3d-models/little-dragon-sculpt-f97055acc4f24ca192f5d73d7cdc27e4
+* author:	ZStuff (https://sketchfab.com/rumpelshtiltshin)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Little Dragon Sculpt" (https://sketchfab.com/3d-models/little-dragon-sculpt-f97055acc4f24ca192f5d73d7cdc27e4) by ZStuff (https://sketchfab.com/rumpelshtiltshin) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
