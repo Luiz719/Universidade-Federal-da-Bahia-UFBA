@@ -1,0 +1,4 @@
+A: acquire
+A: propose
+B: quit
+C: quit
