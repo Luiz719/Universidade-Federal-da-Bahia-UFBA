@@ -1,0 +1,322 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/robots/adept/pioneer3/protos/Pioneer3at.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/humans/pedestrian/protos/Pedestrian.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/factory/containers/protos/WoodenBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/apartment_structure/protos/Wall.proto"
+
+WorldInfo {
+  title "Matb24 - Pioneer Camera"
+}
+Viewpoint {
+  orientation -0.1251284951895923 0.13177461313789945 0.983350553477215 1.5334506613295116
+  position 0.6635355179307753 -13.932198829194718 3.4141905094688663
+  follow "Pioneer 3-AT"
+  followType "None"
+}
+TexturedBackground {
+  texture "noon_park_empty"
+  luminosity 0.3
+  skyColor [
+    0.5 0.7 0.9
+  ]
+}
+TexturedBackgroundLight {
+  texture "noon_park_empty"
+  luminosity 1.5
+}
+RectangleArena {
+  name "MATB24 - Pioneer"
+  floorSize 15 15
+  floorTileSize -0.2 0.5
+  wallAppearance BrushedAluminium {
+    colorOverride 1 1 0.4
+    IBLStrength 2
+  }
+}
+WoodenBox {
+  translation 0.549906 4.59688 1.36804
+  rotation 8.79782999931903e-06 0.9999999999225981 -8.79782999931903e-06 1.5708
+  name "wooden box(7)"
+  size 2.7 0.6 0.6
+  mass 5
+}
+Pioneer3at {
+  translation 0.975216 -7.09494 -0.00264869
+  rotation 4.5567463749865094e-05 -0.00011723916472157595 0.9999999920892922 1.5713965455528098
+  controller "robots"
+  controllerArgs [
+    ""
+  ]
+  supervisor TRUE
+  extensionSlot [
+    Receiver {
+      translation 0 -0.13 0.35
+      children [
+        Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Cylinder {
+            height 0.2
+            radius 0.01
+          }
+        }
+      ]
+    }
+    Camera {
+      translation 0.0237654 0.06 0.295228
+      rotation 0 1 0 4.07987e-06
+      children [
+        Shape {
+          appearance PBRAppearance {
+          }
+          geometry Box {
+            size 0.08 0.08 0.08
+          }
+        }
+      ]
+      boundingObject Box {
+        size 0.08 0.08 0.07
+      }
+      physics Physics {
+        mass 1
+      }
+      fieldOfView 1
+      width 320
+      height 320
+      far 1.5
+      recognition Recognition {
+        segmentation TRUE
+      }
+    }
+  ]
+}
+Pioneer3at {
+  translation -1.8238022214580483 3.4293473399431798 -0.002626804091281437
+  rotation 9.984263803386296e-06 0.0003113708574258953 -0.9999999514742507 1.5709113807479915
+  name "Pioneer 3-AT - monitor - L"
+  controller "emitter"
+  controllerArgs [
+    ""
+  ]
+  supervisor TRUE
+  extensionSlot [
+    Emitter {
+      translation 0.03 -0.13 0.35
+      children [
+        Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Cylinder {
+            height 0.2
+            radius 0.01
+          }
+        }
+      ]
+    }
+    Camera {
+      translation 0.0237654 0.06 0.295228
+      rotation 0 1 0 4.07987e-06
+      children [
+        Shape {
+          appearance PBRAppearance {
+          }
+          geometry Box {
+            size 0.08 0.08 0.08
+          }
+        }
+      ]
+      boundingObject Box {
+        size 0.08 0.08 0.07
+      }
+      physics Physics {
+        mass 1
+      }
+      fieldOfView 1
+      width 320
+      height 320
+      far 15
+      lens Lens {
+      }
+      focus Focus {
+      }
+      zoom Zoom {
+      }
+      recognition Recognition {
+        segmentation TRUE
+      }
+    }
+  ]
+}
+Pioneer3at {
+  translation 3.2046068812675257 3.4595076237671427 -0.0026268040919200653
+  rotation 9.727635591231192e-06 0.00031164446216346497 -0.99999995139155 1.5692098420109577
+  name "Pioneer 3-AT - monitor - R"
+  controller "emitter"
+  controllerArgs [
+    ""
+  ]
+  supervisor TRUE
+  extensionSlot [
+    Emitter {
+      translation 0.05 -0.13 0.35
+      children [
+        Shape {
+          appearance BrushedAluminium {
+          }
+          geometry Cylinder {
+            height 0.2
+            radius 0.01
+          }
+        }
+      ]
+    }
+    Camera {
+      translation 0.0237654 0.06 0.295228
+      rotation 0 1 0 4.07987e-06
+      children [
+        Shape {
+          appearance PBRAppearance {
+          }
+          geometry Box {
+            size 0.08 0.08 0.08
+          }
+        }
+      ]
+      boundingObject Box {
+        size 0.08 0.08 0.07
+      }
+      physics Physics {
+        mass 1
+      }
+      fieldOfView 1
+      width 320
+      height 320
+      far 1.4
+      lens Lens {
+      }
+      focus Focus {
+      }
+      zoom Zoom {
+      }
+      recognition Recognition {
+        segmentation TRUE
+      }
+      lensFlare LensFlare {
+      }
+    }
+  ]
+}
+Pioneer3at {
+  hidden position_0_0 2.284618163085544
+  hidden position_0_1 2.2846181832188126
+  hidden position_0_2 2.284703958071068
+  hidden position_0_3 2.28470397265445
+  hidden rotation_2 -0.32983090054230574 0.32982448049825713 -0.8845492575947969 1.6931758442562639
+  hidden rotation_3 -0.32983090847805563 0.32982448843394535 -0.8845492516767096 1.6931758508966985
+  hidden rotation_4 -0.3298647167294222 0.3298582964218194 -0.884524037513234 1.6932041429934719
+  hidden rotation_5 -0.32986472247731163 0.3298583021696641 -0.8845240332261823 1.6932041478039108
+  translation -4.54 2.61646 -0.0109368
+  rotation -0.010692396543962873 -0.010691396544286098 0.9998856768131441 -1.5709053071795864
+  name "Pioneer 3-AT1"
+  controller "tangentBug"
+  extensionSlot [
+    GPS {
+    }
+  ]
+}
+Pedestrian {
+  translation -4.376 0 1.258
+  controllerArgs [
+    "--speed=1.5"
+    "--trajectory= -5 0, 7 0"
+  ]
+  rightLegAngle 0.37381818181818194
+  rightLowerLegAngle 0.24036363636363645
+  rightFootAngle 0.010181818181817924
+  leftLegAngle -0.7719999999999998
+  leftLowerLegAngle 0.689636363636363
+  leftFootAngle -0.3125454545454547
+  rightArmAngle -0.677818181818182
+  rightLowerArmAngle -0.2705454545454543
+  rightHandAngle -0.040909090909090784
+  leftArmAngle 0.6803636363636364
+  leftLowerArmAngle -0.4323636363636362
+  leftHandAngle 0.18690909090909097
+  headAngle 0.07527272727272731
+}
+WoodenBox {
+  translation 0.929999 1.99256 0.298038
+  rotation -1.4437641843969522e-11 -8.860807400122785e-11 1 2.419882016180665e-07
+  mass 5
+}
+WoodenBox {
+  translation 2.16003 1.05998 0.298038
+  rotation 0.9989471160334251 -0.032439631382791496 -0.03243963138279151 1.5718497652383263
+  name "wooden box(1)"
+  mass 5
+}
+WoodenBox {
+  translation 0.980089 -3.51832 0.298038
+  rotation -4.804459132681482e-12 -5.170624171012838e-12 -1 2.3561447818498217e-06
+  name "wooden box(4)"
+  mass 5
+}
+WoodenBox {
+  translation 2.1798 -0.79314 0.298038
+  rotation -5.691976691399083e-14 5.431483836753879e-13 -1 1.7595665221971248e-05
+  name "wooden box(3)"
+  mass 5
+}
+WoodenBox {
+  translation -0.860175 -0.713118 0.298038
+  rotation 6.753398433566836e-13 -1.680463821343073e-14 -1 1.7595665223005702e-05
+  name "wooden box(6)"
+  mass 5
+}
+WoodenBox {
+  translation -0.800168 0.816909 0.298038
+  rotation -4.015060378713002e-13 6.933349775109016e-14 -1 1.759566522190591e-05
+  name "wooden box(5)"
+  mass 5
+}
+WoodenBox {
+  translation 2.03 4.76523 0.298038
+  rotation 1 -9.245734358360906e-09 -9.24573436851231e-09 1.5707963267948968
+  name "wooden box(2)"
+  mass 5
+}
+Wall {
+  translation -1.25 3.89 0
+  size 0.2 6.7 0.8
+}
+Wall {
+  translation 0.680002 7.3 0
+  rotation 0 0 1 1.5708
+  name "wall(4)"
+  size 0.2 4.05 0.8
+}
+Wall {
+  translation 2.6 3.89 0
+  name "wall(2)"
+  size 0.2 6.7 0.8
+}
+Wall {
+  translation -1.25 -3.84 0
+  name "wall(1)"
+  size 0.2 6.7 0.8
+}
+Wall {
+  translation 2.6 -3.84 0
+  name "wall(3)"
+  size 0.2 6.7 0.8
+}
+Pedestrian {
+  translation 0.79 6.29 1.27
+  rotation 0 0 1 -1.047195307179586
+  name "pedestrian(1)"
+}
